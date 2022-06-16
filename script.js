@@ -50,6 +50,17 @@ const renderProduct = async () => {
   });
 };
 
+const renderItem = async () => {
+  const cartItem = document.querySelector('.cart__items');
+  const products = await fetchItem('MLB1341706310');
+  console.log(products);
+    const { id, title, price } = products;
+    const productBox = createCartItemElement({ 
+      sku: `${id}`, name: `${title}`, salePrice: `${price}` });
+    cartItem.appendChild(productBox);
+};
+
 window.onload = () => {
   renderProduct();
+  renderItem();
 };
