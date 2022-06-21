@@ -18,12 +18,10 @@ const createCustomElement = (element, className, innerText) => {
 const createProductItemElement = ({ sku, name, image }) => {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
   return section;
 };
 
@@ -31,7 +29,6 @@ const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').inn
 
 const cartItemClickListener = (event) => {
   // coloque seu código aqui
-  console.log(event.path[0]);
   const itemRemove = event.path[0];
   itemRemove.parentNode.removeChild(itemRemove);
 };
@@ -56,8 +53,8 @@ const renderProduct = async () => {
   });
 };
 
-const renderItem = async (click) => {
-  const products = await fetchItem(`${click}`);
+const renderItem = async (idItem) => {
+  const products = await fetchItem(`${idItem}`);
   const { id, title, price } = products;
   const productBox = createCartItemElement({ 
     sku: `${id}`, name: `${title}`, salePrice: `${price}` });
@@ -66,57 +63,27 @@ const renderItem = async (click) => {
 };
 
 const itemSelected = () => {
-    const rrr = domQSAll('.item__add');
-    rrr.forEach((item) => {
+    const buttonAdd = domQSAll('.item__add');
+    buttonAdd.forEach((item) => {
     item.addEventListener('click', () => {
-      const aaa = item.closest('.item');
-      const ttt = aaa.firstElementChild.textContent;
-      renderItem(ttt);
+      const infoItem = item.closest('.item');
+      const idItem = infoItem.firstElementChild.textContent;
+      renderItem(idItem);
     });
   });
 };
 setTimeout(itemSelected, 100);
 
-  // domQSAll('item').forEach((item, key) => {
-  //   const aa = item.addEventListener('click', (ev) => {
-  //     resetSelected();
-  //     ev.target.classList.add('selected');
-  //     console.log(ev);
-  //   });
-  // });
-// // eslint-disable-next-line max-lines-per-function
-// const itemSelected = async () => {
-//   const domQS = (qs) => document.querySelector(qs);
-//   const buttonItem = document.querySelector('.items');
-//   console.log(buttonItem);
-//   // const { id } = await fetchItem('MLB2201947940');
-//   const yyy = buttonItem.addEventListener('mouseover', async (ev) => {
-//     // console.log(childNodes);
-//     const child = domQS('.item__add').addEventListener('click', () => {
-//       //   const ids = document.querySelectorAll('.item');
-//       //   renderItem(id.textContent);
-//     // console.log(id.textContent);
-//     });
-//     // const childNod = [...child];
-//     ev.preventDefault();
-//     const teste = ev.target.closest('.item__sku').getAttribute('item___sku');
-//     console.log(teste);
-//     const eee = childNod.map((it, index) => childNod.find((id) => {
-//       const idS = document.querySelector('.item__sku');
-//       console.log(id);
-//       id. idS.textContent
-//       return idS;
-//       }));
-//       console.log(eee);
-
-//     });
-//     // });
-//   console.log(yyy);
-// };
-
-// const childNodes = document.querySelectorAll('.item');
-// // console.log(event.target);
-// childNodes.addEventListener('mousemove', async () => {
+const esvaziar = () => {
+  const buttonEsvaziar = domQS('.empty-cart');
+    buttonEsvaziar.addEventListener('click', () => {
+      const dataItems = domQSAll('.cart__item');
+      dataItems.forEach((item) => {
+      item.parentNode.removeChild(item);
+    });
+  });
+};
+setTimeout(esvaziar, 100);
 
 window.onload = () => {
   renderProduct();
