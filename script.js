@@ -1,3 +1,6 @@
+const domQS = (qs) => document.querySelector(qs);
+const domQSAll = (qs) => document.querySelectorAll(qs);
+
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -50,17 +53,69 @@ const renderProduct = async () => {
   });
 };
 
-const renderItem = async () => {
+const renderItem = async (click) => {
+  const products = await fetchItem(`${click}`);
+  const { id, title, price } = products;
+  const productBox = createCartItemElement({ 
+    sku: `${id}`, name: `${title}`, salePrice: `${price}` });
   const cartItem = document.querySelector('.cart__items');
-  const products = await fetchItem('MLB1341706310');
-  console.log(products);
-    const { id, title, price } = products;
-    const productBox = createCartItemElement({ 
-      sku: `${id}`, name: `${title}`, salePrice: `${price}` });
-    cartItem.appendChild(productBox);
+  cartItem.appendChild(productBox);
 };
+
+const itemSelected = () => {
+    const rrr = domQSAll('.item__add');
+    rrr.forEach((item) => {
+    item.addEventListener('click', () => {
+      const aaa = item.closest('.item');
+      const ttt = aaa.firstElementChild.textContent;
+      renderItem(ttt);
+    });
+  });
+};
+setTimeout(itemSelected, 100);
+
+  // domQSAll('item').forEach((item, key) => {
+  //   const aa = item.addEventListener('click', (ev) => {
+  //     resetSelected();
+  //     ev.target.classList.add('selected');
+  //     console.log(ev);
+  //   });
+  // });
+// // eslint-disable-next-line max-lines-per-function
+// const itemSelected = async () => {
+//   const domQS = (qs) => document.querySelector(qs);
+//   const buttonItem = document.querySelector('.items');
+//   console.log(buttonItem);
+//   // const { id } = await fetchItem('MLB2201947940');
+//   const yyy = buttonItem.addEventListener('mouseover', async (ev) => {
+//     // console.log(childNodes);
+//     const child = domQS('.item__add').addEventListener('click', () => {
+//       //   const ids = document.querySelectorAll('.item');
+//       //   renderItem(id.textContent);
+//     // console.log(id.textContent);
+//     });
+//     // const childNod = [...child];
+//     ev.preventDefault();
+//     const teste = ev.target.closest('.item__sku').getAttribute('item___sku');
+//     console.log(teste);
+//     const eee = childNod.map((it, index) => childNod.find((id) => {
+//       const idS = document.querySelector('.item__sku');
+//       console.log(id);
+//       id. idS.textContent
+//       return idS;
+//       }));
+//       console.log(eee);
+
+//     });
+//     // });
+//   console.log(yyy);
+// };
+
+// const childNodes = document.querySelectorAll('.item');
+// // console.log(event.target);
+// childNodes.addEventListener('mousemove', async () => {
 
 window.onload = () => {
   renderProduct();
-  renderItem();
+  itemSelected();
 };
