@@ -31,6 +31,9 @@ const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').inn
 
 const cartItemClickListener = (event) => {
   // coloque seu código aqui
+  console.log(event.path[0]);
+  const itemRemove = event.path[0];
+  itemRemove.parentNode.removeChild(itemRemove);
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
