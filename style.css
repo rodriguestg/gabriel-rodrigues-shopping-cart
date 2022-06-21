@@ -141,7 +141,7 @@ body {
   overflow-y: scroll;
 }
 
-li.cart__item {
+li .cart__item {
   padding: 4px;
 }
 

@@ -62,8 +62,8 @@ const renderItem = async (idItem) => {
   cartItem.appendChild(productBox);
 };
 
-const itemSelected = () => {
-    const buttonAdd = domQSAll('.item__add');
+const itemCart = async () => {
+    const buttonAdd = await domQSAll('.item__add');
     buttonAdd.forEach((item) => {
     item.addEventListener('click', () => {
       const infoItem = item.closest('.item');
@@ -72,20 +72,19 @@ const itemSelected = () => {
     });
   });
 };
-setTimeout(itemSelected, 100);
+setTimeout(itemCart, 100);
 
 const esvaziar = () => {
-  const buttonEsvaziar = domQS('.empty-cart');
-    buttonEsvaziar.addEventListener('click', () => {
-      const dataItems = domQSAll('.cart__item');
-      dataItems.forEach((item) => {
-      item.parentNode.removeChild(item);
+  const dataItems = domQSAll('.cart__item');
+  console.log(dataItems);
+    dataItems.forEach((item) => {
+    item.parentNode.removeChild(item);
     });
-  });
 };
-setTimeout(esvaziar, 100);
+const buttonEsvaziar = domQS('.empty-cart');
+buttonEsvaziar.addEventListener('click', esvaziar);
 
 window.onload = () => {
   renderProduct();
-  itemSelected();
+  itemCart();
 };
