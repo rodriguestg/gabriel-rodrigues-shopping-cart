@@ -29,7 +29,10 @@ const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').inn
 
 let priceAtual = 0;
 const priceItem = (priceAtualizado) => {
-  domQS('.total-price').innerText = `Valor total: ${Math.round(priceAtualizado)}`;
+  domQS('.total-price').innerText = priceAtualizado;
+    // .toLocaleString({ style: 'currency' })
+    // .split('.');
+  console.log(priceAtualizado);
 };
 
 const cartItemClickListener = (event) => {
@@ -74,23 +77,23 @@ const renderItem = async (idItem) => {
   await saveCartItems();
 };
 
-const itemCart = () => {
+const itemCart = async () => {
     const buttonAdd = domQSAll('.item__add');
-    buttonAdd.forEach((item) => {
-    item.addEventListener('click', () => {
-      const infoItem = item.closest('.item');
-      renderItem(getSkuFromProductItem(infoItem));
+    buttonAdd.forEach(async (item) => {
+    await item.addEventListener('click', async () => {
+      const infoItem = await item.closest('.item');
+      await renderItem(getSkuFromProductItem(infoItem));
       // const idItem = infoItem.firstElementChild.textContent;
       // renderItem(idItem);
     });
   });
 };
-setTimeout(itemCart, 200);
+setTimeout(itemCart, 100);
 
 const esvaziar = () => {
   const dataItems = domQSAll('.cart__item');
-    dataItems.forEach((item) => {
-    item.parentNode.removeChild(item);
+    dataItems.forEach(async (item) => {
+      await item.parentNode.removeChild(item);
     });
 };
   const buttonEsvaziar = domQS('.empty-cart');
