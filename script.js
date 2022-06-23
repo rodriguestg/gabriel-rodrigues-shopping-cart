@@ -39,6 +39,7 @@ const cartItemClickListener = (event) => {
   const itemPrice = itemRemove.innerText.split('$', 8);
   priceAtual -= itemPrice[1];
   priceItem(priceAtual);
+  saveCartItems();
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
@@ -70,6 +71,7 @@ const renderItem = async (idItem) => {
   cartItem.appendChild(productBox);
   priceAtual += price;
   priceItem(priceAtual);
+  await saveCartItems();
 };
 
 const itemCart = () => {
@@ -90,11 +92,12 @@ const esvaziar = () => {
     dataItems.forEach((item) => {
     item.parentNode.removeChild(item);
     });
-    priceAtual = 0;
-    priceItem(priceAtual);
 };
   const buttonEsvaziar = domQS('.empty-cart');
-  buttonEsvaziar.addEventListener('click', esvaziar);
+  buttonEsvaziar.addEventListener('click', () => {
+    priceItem(0);
+    esvaziar();
+  });
 
 window.onload = () => {
   renderProduct();
