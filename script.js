@@ -27,10 +27,18 @@ const createProductItemElement = ({ sku, name, image }) => {
 
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
+let priceAtual = 0;
+const priceItem = (priceAtualizado) => {
+  domQS('.total-price').innerText = `Valor total: ${Math.round(priceAtualizado)}`;
+};
+
 const cartItemClickListener = (event) => {
   // coloque seu código aqui
   const itemRemove = event.path[0];
   itemRemove.parentNode.removeChild(itemRemove);
+  const itemPrice = itemRemove.innerText.split('$', 8);
+  priceAtual -= itemPrice[1];
+  priceItem(priceAtual);
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
@@ -60,6 +68,8 @@ const renderItem = async (idItem) => {
     sku: `${id}`, name: `${title}`, salePrice: `${price}` });
   const cartItem = document.querySelector('.cart__items');
   cartItem.appendChild(productBox);
+  priceAtual += price;
+  priceItem(priceAtual);
 };
 
 const itemCart = () => {
@@ -73,14 +83,15 @@ const itemCart = () => {
     });
   });
 };
-setTimeout(itemCart, 100);
+setTimeout(itemCart, 200);
 
 const esvaziar = () => {
   const dataItems = domQSAll('.cart__item');
-  console.log(dataItems);
     dataItems.forEach((item) => {
     item.parentNode.removeChild(item);
     });
+    priceAtual = 0;
+    priceItem(priceAtual);
 };
   const buttonEsvaziar = domQS('.empty-cart');
   buttonEsvaziar.addEventListener('click', esvaziar);
